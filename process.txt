@@ -1,0 +1,30 @@
+Para versionar datos y modelos:
+1.	Crear repositorio en GitHub
+2.	Descargar repo: git clone ssh_repo
+3.	Entrar a la carpeta cd nombre_repo
+4.	Crear entorno virtual: python3 -m venv DVC
+5.	Instalar dependencias: pip install -r requirements.txt
+6.	Agregar credenciales de AWS(en caso de no haberlo hecho)
+7.	Correr script: python version_model_data.py
+8.	Iniciar repo de DVC: dvc init
+9.	Definir almacenamiento remote: dvc remote add -d s3_remote s3://nombre-bucket/
+10.	Versionar datos: dvc add medical_insurance.csv
+11.	Agregar cambios a la zona de staging de Git: git add medical_insurance.csv.dvc .gitignore
+12.	Confirmar cambios: git commit -m "Data version #1"
+13.	Guardar datos en s3: dvc push
+14.	Versionar modelos: dvc add pipeline.joblib
+15.	Agregar cambios a la zona de staging de Git: git add pipeline.joblib.dvc .gitignore
+16.	Confirmar cambios: git commit -m "Model version #1"
+17.	Agregar proyecto de dvc al repo: git add .dvc
+18.	Confirmar nuevos cambios: git commit -m "DVC config"
+19.	Llevar todos los cambios al repo: git push origin main
+
+Para usar este repo y acceder a lo almecenado en s3:
+1. Entrar a otra carpeta diferente a la actual
+2. Volver a clonar el repositorio: git clone nombre_repo
+3. Descargar archivos: dvc pull
+
+En caso de requierir descargar unos datos o un modelo en especifico:
+1. Ir a otra carpeta diferente
+2. Obtener los datos/modelo: dvc get url_repo nombre_archivo.tipo id_commit
+3. Ejemplo de lo anterior: dvc get https://github.com/smm-0216/dvc_test pipeline.joblib --rev 923f979302688421dca71aa9667b83e91155badd
